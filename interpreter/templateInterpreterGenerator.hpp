@@ -87,7 +87,12 @@ class TemplateInterpreterGenerator: public AbstractInterpreterGenerator {
   TemplateInterpreterGenerator(StubQueue* _code);
 
 #ifdef TARGET_ARCH_x86
-# include "templateInterpreterGenerator_x86.hpp"
+//# include "templateInterpreterGenerator_x86.hpp"
+ protected:
+
+ void generate_fixed_frame(bool native_call);
+
+ // address generate_asm_interpreter_entry(bool synchronized);
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "templateInterpreterGenerator_sparc.hpp"

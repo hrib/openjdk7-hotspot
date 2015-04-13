@@ -184,7 +184,19 @@ class TemplateInterpreter: public AbstractInterpreter {
   static address deopt_reexecute_entry(methodOop method, address bcp);
 
 #ifdef TARGET_ARCH_x86
-# include "templateInterpreter_x86.hpp"
+//# include "templateInterpreter_x86.hpp"
+  protected:
+
+  // Size of interpreter code.  Increase if too small.  Interpreter will
+  // fail with a guarantee ("not enough space for interpreter generation");
+  // if too small.
+  // Run with +PrintInterpreter to get the VM to print out the size.
+  // Max size with JVMTI
+#ifdef AMD64
+  const static int InterpreterCodeSize = 200 * 1024;
+#else
+  const static int InterpreterCodeSize = 168 * 1024;
+#endif // AMD64
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "templateInterpreter_sparc.hpp"

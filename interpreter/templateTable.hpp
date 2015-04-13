@@ -359,7 +359,14 @@ class TemplateTable: AllStatic {
 
   // Platform specifics
 #ifdef TARGET_ARCH_MODEL_x86_32
-# include "templateTable_x86_32.hpp"
+//# include "templateTable_x86_32.hpp"
+static void prepare_invoke(Register method, Register index, int byte_no);
+static void invokevirtual_helper(Register index, Register recv, Register flags);
+static void volatile_barrier(Assembler::Membar_mask_bits order_constraint );
+
+  // Helpers
+static void index_check(Register array, Register index);
+static void index_check_without_pop(Register array, Register index);
 #endif
 #ifdef TARGET_ARCH_MODEL_x86_64
 # include "templateTable_x86_64.hpp"
