@@ -82,7 +82,15 @@ class CppInterpreter: public AbstractInterpreter {
   static address    deopt_entry   (TosState state, int length);
 
 #ifdef TARGET_ARCH_x86
-# include "cppInterpreter_x86.hpp"
+//# include "cppInterpreter_x86.hpp"
+  protected:
+
+  // Size of interpreter code.  Increase if too small.  Interpreter will
+  // fail with a guarantee ("not enough space for interpreter generation");
+  // if too small.
+  // Run with +PrintInterpreter to get the VM to print out the size.
+  // Max size with JVMTI
+  const static int InterpreterCodeSize = 168 * 1024;
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "cppInterpreter_sparc.hpp"
