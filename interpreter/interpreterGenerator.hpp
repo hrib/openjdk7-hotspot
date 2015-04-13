@@ -42,7 +42,26 @@ public:
 InterpreterGenerator(StubQueue* _code);
 
 #ifdef TARGET_ARCH_x86
-# include "interpreterGenerator_x86.hpp"
+//# include "interpreterGenerator_x86.hpp"
+// Generation of Interpreter
+//
+  friend class AbstractInterpreterGenerator;
+
+ private:
+
+  address generate_normal_entry(bool synchronized);
+  address generate_native_entry(bool synchronized);
+  address generate_abstract_entry(void);
+  address generate_method_handle_entry(void);
+  address generate_math_entry(AbstractInterpreter::MethodKind kind);
+  address generate_empty_entry(void);
+  address generate_accessor_entry(void);
+  address generate_Reference_get_entry();
+  void lock_method(void);
+  void generate_stack_overflow_check(void);
+
+  void generate_counter_incr(Label* overflow, Label* profile_method, Label* profile_method_continue);
+  void generate_counter_overflow(Label* do_continue);
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "interpreterGenerator_sparc.hpp"

@@ -144,7 +144,23 @@ class Interpreter: public CC_INTERP_ONLY(CppInterpreter) NOT_CC_INTERP(TemplateI
   // Debugging/printing
   static InterpreterCodelet* codelet_containing(address pc)     { return (InterpreterCodelet*)_code->stub_containing(pc); }
 #ifdef TARGET_ARCH_x86
-# include "interpreter_x86.hpp"
+//# include "interpreter_x86.hpp"
+ public:
+  static Address::ScaleFactor stackElementScale() {
+    return NOT_LP64(Address::times_4) LP64_ONLY(Address::times_8);
+  }
+
+  // Offset from rsp (which points to the last stack element)
+  static int expr_offset_in_bytes(int i) { return stackElementSize * i; }
+
+  // Stack index relative to tos (which points at value)
+  static int expr_index_at(int i)        { return stackElementWords * i; }
+
+  // Already negated by c++ interpreter
+  static int local_index_at(int i) {
+    assert(i <= 0, "local direction already negated");
+    return stackElementWords * i;
+  }
 #endif
 #ifdef TARGET_ARCH_sparc
 # include "interpreter_sparc.hpp"
